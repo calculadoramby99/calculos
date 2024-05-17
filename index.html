@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <script>
+        function calcular() {
+            let n1 = parseInt(document.getElementById('n1').value);
+            let n2 = parseInt(document.getElementById('n2').value);
+            let n3 = parseInt(document.getElementById('n3').value);
+            let n4 = parseInt(document.getElementById('n4').value);
+            let n5 = n1 + n2 + n3 + n4;
+            let media = n5 / 4;
+
+            document.getElementById('resultadoAdicao').innerText = `Seu resultado em adição é: ${n5}`;
+            document.getElementById('resultadoSubtracao').innerText = `Seu resultado em subtração é: ${n1 - n2}`;
+            document.getElementById('resultadoMultiplicacao').innerText = `Seu resultado em multiplicação é: ${n1 * n2}`;
+            
+            if (n2 !== 0) {
+                document.getElementById('resultadoDivisao').innerText = `Seu resultado em divisão é: ${n1 / n2}`;
+            } else {
+                document.getElementById('resultadoDivisao').innerText = "Divisão por zero não é permitida";
+            }
+
+            document.getElementById('soma').innerText = `A soma dos quatro números é: ${n5}`;
+            document.getElementById('media').innerText = `Média escolar: ${media}`;
+            
+            if (media >= 6) {
+                document.getElementById('aprovacao').innerText = "APROVADO!!";
+            } else {
+                document.getElementById('aprovacao').innerText = "REPROVADO!!";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Calculadora</h1>
+    <form onsubmit="event.preventDefault(); calcular();">
+        <label for="n1">Digite o primeiro número: </label>
+        <input type="number" id="n1" required><br>
+        <label for="n2">Digite o segundo número: </label>
+        <input type="number" id="n2" required><br>
+        <label for="n3">Digite o terceiro número: </label>
+        <input type="number" id="n3" required><br>
+        <label for="n4">Digite o quarto número: </label>
+        <input type="number" id="n4" required><br><br>
+        <button type="submit">Calcular</button>
+    </form>
+    <p id="resultadoAdicao"></p>
+    <p id="resultadoSubtracao"></p>
+    <p id="resultadoMultiplicacao"></p>
+    <p id="resultadoDivisao"></p>
+    <p id="soma"></p>
+    <p id="media"></p>
+    <p id="aprovacao"></p>
+</body>
+</html>
+<link rel="manifest" href="manifest.json">
+{
+  "name": "Calculadora",
+  "short_name": "Calculadora",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#2196F3",
+  "background_color": "#FFFFFF"
+}
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open('v1').then(function(cache) {
+      return cache.addAll([
+        '/index.html',
+        '/manifest.json',
+        '/icon.png',
+        '/style.css',
+        '/script.js'
+      ]);
+    })
+  );
+});
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      return response || fetch(event.request);
+    })
+  );
+});
+<script src="script.js"></script>
